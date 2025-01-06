@@ -15,11 +15,8 @@ dotenv.config();
 //Create Express App
 const app = express();
 
-
-//Principal Route
-app.get("/", (req, res) => {
-  res.send("Hello World!");
-});
+//Allow Express to parse JSON
+app.use(express.json());
 
 //Route to handle Auth
 app.use("/api/auth", authRoutes);
