@@ -6,6 +6,7 @@ import { User } from "../models/user.model.js";
 
 //Import Utils
 import { generateTokenAndSetCookie } from "../utils/generateTokenAndSetCookie.js";
+import { sendVerificationEmail } from "../mailtrap/email.js";
 
 //Controller for authentication
 export const signup = async (req, res) => {
@@ -41,6 +42,8 @@ export const signup = async (req, res) => {
 
     //jwt
     generateTokenAndSetCookie(res, user._id);
+
+    await sendVerificationEmail(user.email, verificationToken);
 
     res
       .status(201)
