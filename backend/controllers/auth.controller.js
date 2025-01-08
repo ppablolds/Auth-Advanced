@@ -8,7 +8,7 @@ import { User } from "../models/user.model.js";
 
 //Import Utils
 import { generateTokenAndSetCookie } from "../utils/generateTokenAndSetCookie.js";
-import { sendVerificationEmail, sendWelcomeEmail, sendResetPasswordEmail } from "../mailtrap/email.js";
+import { sendVerificationEmail, sendWelcomeEmail, sendResetPasswordEmail, sendResetSuccessEmail } from "../mailtrap/email.js";
 
 dotenv.config();
 
@@ -158,6 +158,41 @@ export const forgotPassword = async (req, res) => {
     res.status(400).json({ success: false, message: error.message });
   }
 };
+
+export const resetPassword = async (req, res) => {
+  const { token } = req.params;
+  const { password } = req.body;
+
+  try {
+    const user = await User.findOne({
+      resetPasswordToken: token,
+      resetPasswordExpires: { $gt: Date.now() },
+    });
+
+    if(!user) {
+      throw new Error("Invalid or expired reset token");
+    }
+
+    const hashedPassword = await bcryptjs.hash(password, 10);
+    user.password = hashedPassword;
+
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpires = undefined;
+
+    await user.save();
+
+    await sendResetSuccessEmail(user.email);
+
+    res.status(200).json({
+      success: true,
+      message: "Password reset successfully",
+    }); 
+  } catch (error) {
+    console.log("Error in resetPassword", error);
+    res.status(400).json({ success: false, message: error.message });
+    
+  }
+}
 
 export const logout = async (req, res) => {
   res.clearCookie("token");
