@@ -1,6 +1,7 @@
 //Import Packages
 import express from "express";
 import dotenv from "dotenv";
+import cookieParser from "cookie-parser";
 
 //Import Database Connection
 import { connectDB } from "./db/connectDB.js";
@@ -17,6 +18,9 @@ const app = express();
 
 //Allow Express to parse JSON
 app.use(express.json());
+
+//Allow Express to parse Cookies
+app.use(cookieParser());
 
 //Route to handle Auth
 app.use("/api/auth", authRoutes);
