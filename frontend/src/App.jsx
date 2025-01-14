@@ -3,6 +3,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import SignUpPage from "./pages/SignUpPage";
 import LoginPage from "./pages/LoginPage";
 import EmailVerificationPage from "./pages/EmailVerificationPage";
+import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import DashboardPage from "./pages/DashBoardPage";
 import LoadingSpinner from "../src/components/LoadingSpinner"
 import { Toaster } from "react-hot-toast";
@@ -90,6 +91,11 @@ function App() {
             }
           />
           <Route path="/verify-email" element={<EmailVerificationPage />} />
+          <Route path="/forgot-password" element={
+            <RedirectAuthenticatedUser>
+              <ForgotPasswordPage />
+            </RedirectAuthenticatedUser>
+          } />
         </Routes>
         <Toaster />
       </div>
