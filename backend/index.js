@@ -2,6 +2,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
+import cors from "cors"
 
 //Import Database Connection
 import { connectDB } from "./db/connectDB.js";
@@ -18,6 +19,8 @@ const app = express();
 
 //Allow Express to parse JSON
 app.use(express.json());
+
+app.use(cors({ origin: "http://localhost:5173", credentials: true }));
 
 //Allow Express to parse Cookies
 app.use(cookieParser());
