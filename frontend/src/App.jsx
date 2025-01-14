@@ -36,7 +36,7 @@ const RedirectAuthenticatedUser = ({ children }) => {
 };
 
 function App() {
-  const { isCheckingAuth, checkAuth, isAuthenticated, user } = useAuthStore();
+  const { isCheckingAuth, checkAuth } = useAuthStore();
 
   useEffect(() => {
     checkAuth();
@@ -46,23 +46,23 @@ function App() {
 
   return (
     <>
-      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-green-900 to-emerald-900 flex items-center justify-center relative overflow-hidden">
+      <div className="min-h-screen bg-gradient-to-br from-Russian-Mauve via-Russian-Heliotrope to-Russian-Amethyst flex items-center justify-center relative overflow-hidden">
         <FloatingShape
-          color="bg-green-500"
+          color="bg-Russian-violet"
           size="w-64 h-64"
           top="-5%"
           left="10%"
           delay={0}
         />
         <FloatingShape
-          color="bg-emerald-500"
+          color="bg-Russian-Persian-Indigo"
           size="w-48 h-48"
           top="70%"
           left="80%"
           delay={5}
         />
         <FloatingShape
-          color="bg-lime-500"
+          color="bg-Russian-tekhelet"
           size="w-32 h-32"
           top="40%"
           left="-10%"
