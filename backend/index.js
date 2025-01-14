@@ -1,36 +1,37 @@
-//Import Packages
 import express from "express";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
-import cors from "cors"
+import cors from "cors";
+import path from "path";
 
-//Import Database Connection
 import { connectDB } from "./db/connectDB.js";
 
-//Import Routes
 import authRoutes from "./routes/auth.routes.js";
 
-//Configure Environment Variables
 dotenv.config();
 
-
-//Create Express App
 const app = express();
 
-//Allow Express to parse JSON
+const PORT = process.env.PORT || 3001;
+const __dirname = path.resolve();
+
 app.use(express.json());
 
 app.use(cors({ origin: "http://localhost:5173", credentials: true }));
 
-//Allow Express to parse Cookies
 app.use(cookieParser());
 
-//Route to handle Auth
 app.use("/api/auth", authRoutes);
 
+if (process.env.NODE_ENV === "production") {
+	app.use(express.static(path.join(__dirname, "/frontend/dist")));
 
-//Start Server
-app.listen(3001, () => {
+	app.get("*", (req, res) => {
+		res.sendFile(path.resolve(__dirname, "frontend", "dist", "index.html"));
+	});
+}
+
+app.listen(PORT, () => {
   connectDB();
   console.log("Server is running on http://localhost:3001");
 });
